@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="color-scheme" content="dark" />
+  <title>VYRAL OPERATIONS</title>
+  <meta name="description" content="Vyral Operations — Financial Holding e Venture Building. Integriamo capitale, capacità esecutive e network per trasformare progetti ambiziosi in aziende solide." />
+  <meta property="og:title" content="VYRAL OPERATIONS" />
+  <meta property="og:description" content="Financial Holding | Venture Building" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700;900&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --edge-x: 1.25rem;
+      --header-y: 1rem;
+      --edge-y-bottom: 1.5rem;
+      --anim-ms: 560ms;
+      --easing: cubic-bezier(0.16, 1, 0.3, 1);
+      --ui-font-size: clamp(0.875rem, 0.23vw + 0.820rem, 1.000rem);
+      --nav-font-size: clamp(1.000rem, 0.68vw + 0.834rem, 1.375rem);
+      --brand-font-size: clamp(1.250rem, 0.90vw + 1.028rem, 1.750rem);
+      --ui-color: rgba(255,255,255,.56);
+      --ui-color-hover: rgba(255,255,255,.88);
+      --ui-color-active: #fff;
+      --ui-color-dim: rgba(255,255,255,.28);
+      --ui-color-icon: rgba(255,255,255,.78);
+      --ui-weight: 500;
+      color-scheme: dark;
+    }
+    @media (min-width: 768px) {
+      :root {
+        --edge-x: 1.5rem;
+        --header-y: 1.25rem;
+        --edge-y-bottom: 2rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      :root {
+        --edge-x: 2rem;
+        --edge-y-bottom: 2.5rem;
+      }
+    }
+    @media (min-width: 1280px) {
+      :root {
+        --edge-x: 2.5rem;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      color: #fff;
+      font-family: "Roboto Condensed", Inter, system-ui, sans-serif;
+      overscroll-behavior: none;
+      -webkit-font-smoothing: antialiased;
+    }
+    body { min-height: 100dvh; }
+    button {
+      font: inherit;
+      color: inherit;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+    }
+    button:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(255,255,255,.72), 0 0 0 4px #000;
+      border-radius: 999px;
+    }
+    .app {
+      position: relative;
+      isolation: isolate;
+      width: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      background: #000;
+      touch-action: pan-x pinch-zoom;
+    }
+    .header {
+      position: absolute;
+      inset-inline: 0;
+      top: 0;
+      z-index: 30;
+      pointer-events: none;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-top: max(var(--header-y), env(safe-area-inset-top));
+      padding-left: max(var(--edge-x), env(safe-area-inset-left));
+      padding-right: max(var(--edge-x), env(safe-area-inset-right));
+      pointer-events: auto;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+      padding-bottom: .25rem;
+      font-family: Poppins, sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1;
+      color: #fff;
+      font-size: var(--brand-font-size);
+      white-space: nowrap;
+    }
+    .brand-slash,
+    .brand-name,
+    .title-slash,
+    .title-name {
+      vertical-align: baseline;
+    }
+    .brand-slash { font-weight: 400; }
+    .brand-name  { font-weight: 700; }
+    @media (min-width: 1024px) { .brand { transform: translateY(1px); } }
+    .nav-desktop { display: none; }
+    @media (min-width: 1024px) { .nav-desktop { display: block; } }
+    .nav-list {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    @media (min-width: 1280px) { .nav-list { gap: 2rem; } }
+    .nav-item {
+      position: relative;
+      min-height: 2.75rem;
+      display: inline-flex;
+      align-items: center;
+      padding-bottom: .25rem;
+      font-size: var(--ui-font-size);
+      font-weight: var(--ui-weight);
+      line-height: 1;
+      color: var(--ui-color);
+      transition: color .3s ease;
+      white-space: nowrap;
+    }
+    .nav-item:hover { color: var(--ui-color-hover); }
+    .nav-item.is-active { color: var(--ui-color-active); }
+    .nav-item::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      border-radius: 999px;
+      opacity: 0;
+      transition: width .3s ease, opacity .3s ease;
+      background: linear-gradient(90deg, #8fb4ff, #fff, transparent);
+    }
+    .nav-item.is-active::after { width: 100%; opacity: 1; }
+    .menu-toggle {
+      width: 2.75rem;
+      height: 2.75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      color: var(--ui-color-hover);
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+      transition: background .3s ease;
+    }
+    .menu-toggle:hover { background: rgba(255,255,255,.09); }
+    @media (min-width: 1024px) { .menu-toggle { display: none; } }
+    .menu-icon {
+      width: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: .375rem;
+    }
+    .menu-icon span {
+      display: block;
+      width: 100%;
+      height: 1px;
+      background: currentColor;
+      transition: transform .3s ease, opacity .3s ease;
+    }
+    .menu-toggle.is-open .menu-icon span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .menu-toggle.is-open .menu-icon span:nth-child(2) { opacity: 0; }
+    .menu-toggle.is-open .menu-icon span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-nav {
+      position: absolute;
+      inset: 0;
+      z-index: 25;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: max(5rem, calc(env(safe-area-inset-top) + 4rem));
+      background: #000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+    .mobile-nav.is-open { opacity: 1; pointer-events: auto; }
+    @media (min-width: 1024px) { .mobile-nav { display: none; } }
+    .mobile-nav nav {
+      padding-left: max(var(--edge-x), env(safe-area-inset-left));
+      padding-right: max(var(--edge-x), env(safe-area-inset-right));
+    }
+    .mobile-nav ul { list-style: none; margin: 0; padding: 0; }
+    .mobile-nav li { border-bottom: 1px solid rgba(255,255,255,.08); }
+    .mobile-nav li:first-child { border-top: 1px solid rgba(255,255,255,.08); }
+    .mobile-nav button {
+      width: 100%;
+      min-height: 3.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      text-align: left;
+      font-size: var(--nav-font-size);
+      color: var(--ui-color);
+    }
+    .mobile-nav button.is-active { color: #fff; }
+    .mobile-nav small { color: var(--ui-color-dim); }
+    .menu-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 24;
+    }
+    .menu-overlay.is-open { display: block; }
+    .slides {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding-inline: var(--edge-x);
+      will-change: transform;
+      transition: transform var(--anim-ms) var(--easing);
+      pointer-events: none;
+    }
+    .slide.is-active { pointer-events: auto; }
+    @media (prefers-reduced-motion: reduce) { .slide { transition: none; } }
+    .slide-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: #000;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .slide-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, .55);
+    }
+    .slide-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 72rem;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: max(4.5rem, calc(env(safe-area-inset-top) + 3.5rem));
+      padding-bottom: max(4.5rem, calc(env(safe-area-inset-bottom) + 3.5rem));
+      opacity: .4;
+      transform: translate3d(0, 1rem, 0);
+      transition: transform .7s ease, opacity .7s ease;
+    }
+    .slide.is-active .slide-inner { opacity: 1; transform: translate3d(0, 0, 0); }
+    .content-grid {
+      display: grid;
+      align-items: center;
+    }
+    .text-col { max-width: 56rem; }
+    .title {
+      margin: 0;
+      color: #fff;
+      line-height: 1.02;
+    }
+    @media (min-width: 768px) { .title { line-height: 1; } }
+    @media (min-width: 1280px) { .title { line-height: .98; } }
+    .title-slide-1 {
+      font-family: Poppins, sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.375rem, 5.19vw + 1.101rem, 5.250rem);
+      white-space: nowrap;
+    }
+    .title-slide-1 .title-slash { font-weight: 400; }
+    .title-slide-1 .title-name  { font-weight: 700; }
+    .title-regular {
+      font-family: "Roboto Condensed", sans-serif;
+      font-weight: 900;
+      font-size: clamp(3.125rem, 3.83vw + 2.183rem, 5.250rem);
+    }
+    .text {
+      margin: clamp(1.25rem, 1.5vw + 0.88rem, 1.75rem) 0 0;
+      max-width: 45rem;
+      color: #fff;
+      font-size: clamp(1.250rem, 0.90vw + 1.028rem, 1.750rem);
+      line-height: 1.62;
+    }
+    .counter {
+      position: absolute;
+      left: max(var(--edge-x), env(safe-area-inset-left));
+      bottom: max(var(--edge-y-bottom), calc(env(safe-area-inset-bottom) + 1rem));
+      font-size: var(--ui-font-size);
+      font-weight: var(--ui-weight);
+      color: var(--ui-color);
+      line-height: 2.75rem;
+      pointer-events: none;
+      z-index: 12;
+    }
+    @media (min-width: 768px) { .counter { line-height: 3rem; } }
+    .controls {
+      position: absolute;
+      right: max(var(--edge-x), env(safe-area-inset-right));
+      bottom: max(var(--edge-y-bottom), calc(env(safe-area-inset-bottom) + 1rem));
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      z-index: 12;
+    }
+    .control-btn {
+      width: 2.75rem;
+      height: 2.75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: var(--ui-color-icon);
+      -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(24px);
+      transition: background .3s ease, color .3s ease, opacity .3s ease;
+    }
+    .control-btn:hover { background: rgba(255,255,255,.08); color: var(--ui-color-active); }
+    .control-btn:disabled { opacity: .35; cursor: not-allowed; }
+    @media (min-width: 768px) {
+      .control-btn {
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+    .control-btn svg { width: 1.25rem; height: 1.25rem; }
+    .slide-logo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: clamp(0.750rem, 0.90vw + 0.528rem, 1.250rem);
+      margin-top: clamp(2.000rem, 2.71vw + 1.335rem, 3.500rem);
+    }
+    .slide-logo {
+      display: block;
+      width: clamp(10.000rem, 13.53vw + 6.677rem, 17.500rem);
+      height: auto;
+    }
+    .slide-logo-link {
+      display: inline-block;
+    }
+    .slide-logo-link img { display: block; }
+    .slide-logo-placeholder {
+      font-family: "Roboto Condensed", sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.063rem, 0.34vw + 0.979rem, 1.250rem);
+      color: var(--ui-color);
+      white-space: nowrap;
+    }
+    .slide-project-desc {
+      margin-top: 0;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255,255,255,.10);
+    }
+    .slide-visit {
+      display: inline-flex;
+      align-items: center;
+      font-size: var(--ui-font-size);
+      font-weight: var(--ui-weight);
+      color: var(--ui-color);
+      text-decoration: none;
+      line-height: 1;
+      position: relative;
+      padding-bottom: .25rem;
+      transition: color .3s ease;
+    }
+    .slide-visit::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      border-radius: 999px;
+      opacity: 0;
+      transition: width .3s ease, opacity .3s ease;
+      background: linear-gradient(90deg, #8fb4ff, #fff, transparent);
+    }
+    .slide-visit:hover { color: var(--ui-color-hover); }
+    .slide-visit:hover::after { width: 100%; opacity: 1; }
+    .contact-rows {
+      margin-top: clamp(1.25rem, 1.5vw + 0.88rem, 2.00rem);
+      width: 100%;
+    }
+    .contact-row {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.375rem, 0.45vw + 0.264rem, 0.625rem);
+      padding: clamp(0.75rem, 0.90vw + 0.528rem, 1.25rem) 0;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .contact-row:first-child { border-top: 1px solid rgba(255,255,255,.10); }
+    @media (min-width: 640px) {
+      .contact-row {
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 2rem;
+      }
+    }
+    .contact-label {
+      font-family: "Roboto Condensed", sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.063rem, 0.34vw + 0.979rem, 1.250rem);
+      color: var(--ui-color);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .contact-value {
+      font-family: "Roboto Condensed", sans-serif;
+      font-weight: 400;
+      font-size: clamp(1.063rem, 0.34vw + 0.979rem, 1.250rem);
+      line-height: 1.5;
+      color: #fff;
+    }
+    @media (min-width: 640px) { .contact-value { text-align: right; } }
+    .contact-value a {
+      color: inherit;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <header class="header">
+      <div class="header-inner">
+        <button class="brand" id="brandButton" aria-label="Vai alla prima slide"><span class="brand-name">VYRAL OPERATIONS</span></button>
+        <nav class="nav-desktop" aria-label="Navigazione sezioni">
+          <ul class="nav-list" id="desktopNav"></ul>
+        </nav>
+        <button class="menu-toggle" id="menuToggle" aria-label="Apri menu" aria-expanded="false" aria-controls="mobileMenu">
+          <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="mobile-nav" id="mobileMenu">
+      <nav aria-label="Navigazione mobile sezioni">
+        <ul id="mobileNav"></ul>
+      </nav>
+    </div>
+    <div class="menu-overlay" id="menuOverlay"></div>
+    <main class="slides" id="slides"></main>
+    <div class="counter" id="counter">01 / 06</div>
+
+    <div class="controls">
+      <button class="control-btn" id="prevButton" aria-label="Slide precedente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 19V5"></path>
+          <path d="m6 11 6-6 6 6"></path>
+        </svg>
+      </button>
+      <button class="control-btn" id="nextButton" aria-label="Slide successiva">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 5v14"></path>
+          <path d="m18 13-6 6-6-6"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const MENU_ITEMS = ["Chi siamo", "Cosa facciamo", "Progetti", "Rete", "Team", "Contatti"];
+    const SLIDES = [
+      { title: '<span class="title-name">VYRAL OPERATIONS</span>', text: "Powering Tomorrow's Code", titleClass: "title title-slide-1" },
+      { titleLines: ["Code", "Execution", "Network"], text: "Specializzati in sviluppo software e business dev. per la creator economy.<br>Realizziamo progetti interni innovativi, offriamo soluzioni su licenza e sviluppiamo su specifiche richieste tailor-made.", titleClass: "title title-regular" },
+      { title: "Il Nostro Ultimo Progetto", text: "", titleClass: "title title-regular", logo: { src: "logo_offbounds.png", alt: "[Logo]", href: "https://VyralOperations.it", desc: "Stiamo realizzando una piattaforma innovativa di Social Entertainment progettata per la New Creator Economy.<br>Un nuovo spazio dove i creator possono costruire comunità autentiche, sviluppare relazioni di valore e trasformare la propria passione in opportunità sostenibili." } },
+      { title: "La Nostra Rete", text: "[Under Construction]", titleClass: "title title-regular" },
+      { title: "Il Team", text: "[Under Construction]", titleClass: "title title-regular" },
+      { title: "Contattaci", text: "Founder, Partner e Talenti sono sempre i benvenuti.", titleClass: "title title-regular", contacts: [
+        { label: "Headquarter", value: "Via Gaetano de Castillia, 23<br>20124 Milano" },
+        { label: "P.IVA", value: "14682610960" },
+        { label: "E-mail", value: "<a href=\"mailto:mail@vyraloperations.it\">mail@vyraloperations.it</a>" },
+        { label: "Phone", value: "<a href=\"tel:+393457935463\">(+39) 345-793-5463</a>" }
+      ]}
+    ];
+
+    const ANIMATION_MS = 560;
+    const WHEEL_THRESHOLD = 120;
+    const WHEEL_RESET_MS = 180;
+    const WHEEL_COOLDOWN_MS = 160;
+    const WHEEL_MIN_DELTA = 8;
+    const TOUCH_THRESHOLD = 40;
+    const AXIS_LOCK_RATIO = 1.15;
+    const DESKTOP_MENU_BREAKPOINT = 1024;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const app = document.getElementById("app");
+    const slidesEl = document.getElementById("slides");
+    const desktopNavEl = document.getElementById("desktopNav");
+    const mobileNavEl = document.getElementById("mobileNav");
+    const counterEl = document.getElementById("counter");
+    const prevButtonEl = document.getElementById("prevButton");
+    const nextButtonEl = document.getElementById("nextButton");
+    const menuToggleEl = document.getElementById("menuToggle");
+    const mobileMenuEl = document.getElementById("mobileMenu");
+    const menuOverlayEl = document.getElementById("menuOverlay");
+    const brandButtonEl = document.getElementById("brandButton");
+
+    let activeIndex = 0;
+    let isAnimating = false;
+    let isMobileMenuOpen = false;
+    let wheelAccumulator = 0;
+    let wheelDirection = 0;
+    let wheelCooldownUntil = 0;
+    let wheelResetTimer = null;
+    let animationTimer = null;
+    let pointerSession = { startX: 0, startY: 0, lockedAxis: null, tracking: false, pointerId: null };
+
+    function buildDesktopNavItem(label, index) {
+      const active = index === 0;
+      return `<li><button data-slide-target="${index}" class="nav-item${active ? ' is-active' : ''}"${active ? ' aria-current="page"' : ''}><span>${label}</span></button></li>`;
+    }
+
+    function buildMobileNavItem(label, index) {
+      const active = index === 0;
+      return `<li><button data-slide-target="${index}" class="${active ? 'is-active' : ''}"${active ? ' aria-current="page"' : ''}><span>${label}</span><small>${String(index + 1).padStart(2, "0")}</small></button></li>`;
+    }
+
+    function buildTitle(slide) {
+      return slide.titleLines ? slide.titleLines.map(line => `<span style="display:block">${line}</span>`).join("") : slide.title;
+    }
+
+    function buildContactRows(contacts) {
+      return `<div class="contact-rows">${contacts.map(r => `<div class="contact-row"><span class="contact-label">${r.label}</span><span class="contact-value">${r.value}</span></div>`).join("")}</div>`;
+    }
+
+    function buildSlideMarkup(slide, index) {
+      const contacts = slide.contacts ? buildContactRows(slide.contacts) : "";
+      const logo = slide.logo ? `<div class="slide-logo-wrap"><span class="slide-logo-placeholder">[Logo]</span><a class="slide-visit" href="${slide.logo.href}" target="_blank" rel="noopener noreferrer">Visit Site</a>${slide.logo.desc ? `<p class="text slide-project-desc">${slide.logo.desc}</p>` : ""}</div>` : "";
+      const bgStyle = slide.bg ? ` style="background-image:url('${slide.bg}')"` : "";
+      return `<section class="slide ${index === 0 ? "is-active" : ""}" data-index="${index}" aria-hidden="${index === 0 ? "false" : "true"}" style="transform:translate3d(0, ${index * 100}%, 0)"><div class="slide-bg"${bgStyle}></div><div class="slide-inner"><div class="content-grid"><div class="text-col"><h1 class="${slide.titleClass}">${buildTitle(slide)}</h1>${slide.text ? `<p class="text">${slide.text}</p>` : ""}${logo}${contacts}</div></div></div></section>`;
+    }
+
+    desktopNavEl.innerHTML = MENU_ITEMS.map(buildDesktopNavItem).join("");
+    mobileNavEl.innerHTML = MENU_ITEMS.map(buildMobileNavItem).join("");
+    slidesEl.innerHTML = SLIDES.map(buildSlideMarkup).join("");
+
+    const slideEls = Array.from(slidesEl.querySelectorAll(".slide"));
+    const desktopNavButtons = Array.from(desktopNavEl.querySelectorAll("[data-slide-target]"));
+    const mobileNavButtons = Array.from(mobileNavEl.querySelectorAll("[data-slide-target]"));
+
+    function updateCounter() {
+      counterEl.textContent = `${String(activeIndex + 1).padStart(2, "0")} / ${String(SLIDES.length).padStart(2, "0")}`;
+    }
+
+    function updateButtons() {
+      prevButtonEl.disabled = activeIndex === 0 || isAnimating;
+      nextButtonEl.disabled = activeIndex === SLIDES.length - 1 || isAnimating;
+    }
+
+    function updateActiveState() {
+      slideEls.forEach((slideEl, index) => {
+        const offset = index - activeIndex;
+        const isActive = index === activeIndex;
+        slideEl.classList.toggle("is-active", isActive);
+        slideEl.setAttribute("aria-hidden", String(!isActive));
+        slideEl.style.transform = `translate3d(0, ${offset * 100}%, 0)`;
+      });
+
+      [...desktopNavButtons, ...mobileNavButtons].forEach((button) => {
+        const idx = Number(button.dataset.slideTarget);
+        const isActive = idx === activeIndex;
+        button.classList.toggle("is-active", isActive);
+        if (isActive) {
+          button.setAttribute("aria-current", "page");
+        } else {
+          button.removeAttribute("aria-current");
+        }
+      });
+
+      updateCounter();
+      updateButtons();
+    }
+
+    function setMobileMenuOpen(nextState) {
+      isMobileMenuOpen = nextState;
+      mobileMenuEl.classList.toggle("is-open", nextState);
+      menuOverlayEl.classList.toggle("is-open", nextState);
+      menuToggleEl.classList.toggle("is-open", nextState);
+      menuToggleEl.setAttribute("aria-expanded", String(nextState));
+      menuToggleEl.setAttribute("aria-label", nextState ? "Chiudi menu" : "Apri menu");
+    }
+
+    function clearWheelAccumulator() {
+      wheelAccumulator = 0;
+      wheelDirection = 0;
+      if (wheelResetTimer) {
+        window.clearTimeout(wheelResetTimer);
+        wheelResetTimer = null;
+      }
+    }
+
+    function unlockAfterAnimation() {
+      if (animationTimer) window.clearTimeout(animationTimer);
+      animationTimer = window.setTimeout(() => {
+        isAnimating = false;
+        updateButtons();
+        clearWheelAccumulator();
+      }, prefersReducedMotion ? 0 : ANIMATION_MS);
+    }
+
+    function goToSlide(nextIndex) {
+      const clamped = Math.max(0, Math.min(SLIDES.length - 1, nextIndex));
+      if (clamped === activeIndex || isAnimating) return false;
+      isAnimating = true;
+      activeIndex = clamped;
+      setMobileMenuOpen(false);
+      wheelCooldownUntil = Date.now() + (prefersReducedMotion ? 0 : ANIMATION_MS + WHEEL_COOLDOWN_MS);
+      updateActiveState();
+      unlockAfterAnimation();
+      return true;
+    }
+
+    function goNext() { return goToSlide(activeIndex + 1); }
+    function goPrev() { return goToSlide(activeIndex - 1); }
+
+    function handleResize() {
+      if (window.innerWidth >= DESKTOP_MENU_BREAKPOINT) setMobileMenuOpen(false);
+    }
+
+    function normalizeWheelDelta(event) {
+      // deltaMode 0 = pixels (Chrome/Safari/trackpad), 1 = lines (Firefox+mouse), 2 = pages
+      if (event.deltaMode === 1) return event.deltaY * 40;
+      if (event.deltaMode === 2) return event.deltaY * window.innerHeight;
+      return event.deltaY;
+    }
+
+    function scheduleWheelAccumulatorReset() {
+      if (wheelResetTimer) window.clearTimeout(wheelResetTimer);
+      wheelResetTimer = window.setTimeout(() => {
+        wheelAccumulator = 0;
+        wheelDirection = 0;
+      }, WHEEL_RESET_MS);
+    }
+
+    function handleWheel(event) {
+      if (event.ctrlKey || isAnimating || isMobileMenuOpen || Date.now() < wheelCooldownUntil || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      event.preventDefault();
+      const normalizedDelta = normalizeWheelDelta(event);
+      if (Math.abs(normalizedDelta) < WHEEL_MIN_DELTA) return;
+      const direction = Math.sign(normalizedDelta);
+      if (wheelDirection !== 0 && direction !== wheelDirection) wheelAccumulator = 0;
+      wheelDirection = direction;
+      wheelAccumulator += normalizedDelta;
+      scheduleWheelAccumulatorReset();
+
+      if (wheelAccumulator >= WHEEL_THRESHOLD) {
+        if (goNext()) clearWheelAccumulator();
+      } else if (wheelAccumulator <= -WHEEL_THRESHOLD) {
+        if (goPrev()) clearWheelAccumulator();
+      }
+    }
+
+    function handleKeyDown(event) {
+      if (isMobileMenuOpen && event.key === "Escape") {
+        setMobileMenuOpen(false);
+        return;
+      }
+      if (["ArrowDown", "PageDown", " "].includes(event.key)) {
+        event.preventDefault();
+        goNext();
+        return;
+      }
+      if (["ArrowUp", "PageUp"].includes(event.key)) {
+        event.preventDefault();
+        goPrev();
+        return;
+      }
+      if (event.key === "Home") {
+        event.preventDefault();
+        goToSlide(0);
+        return;
+      }
+      if (event.key === "End") {
+        event.preventDefault();
+        goToSlide(SLIDES.length - 1);
+      }
+    }
+
+    function handlePointerDown(event) {
+      if (!event.isPrimary || event.pointerType === "mouse") return;
+      pointerSession = { startX: event.clientX, startY: event.clientY, lockedAxis: null, tracking: true, pointerId: event.pointerId };
+    }
+
+    function handlePointerMove(event) {
+      if (!pointerSession.tracking || pointerSession.pointerId !== event.pointerId || isAnimating || isMobileMenuOpen) return;
+      const deltaX = event.clientX - pointerSession.startX;
+      const deltaY = event.clientY - pointerSession.startY;
+      const absX = Math.abs(deltaX);
+      const absY = Math.abs(deltaY);
+      if (!pointerSession.lockedAxis && (absY > 10 || absX > 10)) {
+        pointerSession.lockedAxis = absY > absX * AXIS_LOCK_RATIO ? "y" : "x";
+      }
+      if (pointerSession.lockedAxis === "y") event.preventDefault();
+    }
+
+    function handlePointerEnd(event) {
+      if (!pointerSession.tracking || pointerSession.pointerId !== event.pointerId) return;
+      const deltaY = pointerSession.startY - event.clientY;
+      const absDeltaY = Math.abs(deltaY);
+      if (pointerSession.lockedAxis === "y" && absDeltaY >= TOUCH_THRESHOLD && !isAnimating && !isMobileMenuOpen) {
+        if (deltaY > 0) goNext();
+        else goPrev();
+      }
+      pointerSession = { startX: 0, startY: 0, lockedAxis: null, tracking: false, pointerId: null };
+    }
+
+    desktopNavEl.addEventListener("click", event => {
+      const button = event.target.closest("[data-slide-target]");
+      if (!button) return;
+      goToSlide(Number(button.dataset.slideTarget));
+    });
+
+    mobileNavEl.addEventListener("click", event => {
+      const button = event.target.closest("[data-slide-target]");
+      if (!button) return;
+      goToSlide(Number(button.dataset.slideTarget));
+    });
+
+    brandButtonEl.addEventListener("click", () => goToSlide(0));
+    menuToggleEl.addEventListener("click", () => setMobileMenuOpen(!isMobileMenuOpen));
+    menuOverlayEl.addEventListener("click", () => setMobileMenuOpen(false));
+    prevButtonEl.addEventListener("click", goPrev);
+    nextButtonEl.addEventListener("click", goNext);
+
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("keydown", handleKeyDown);
+    app.addEventListener("wheel", handleWheel, { passive: false });
+    app.addEventListener("pointerdown", handlePointerDown, { passive: true });
+    app.addEventListener("pointermove", handlePointerMove, { passive: false });
+    app.addEventListener("pointerup", handlePointerEnd, { passive: true });
+    app.addEventListener("pointercancel", handlePointerEnd, { passive: true });
+
+    updateActiveState();
+  </script>
+</body>
+</html>
